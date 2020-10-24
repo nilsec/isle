@@ -59,9 +59,8 @@ def reverse(target_state):
                 constraint = pylp.LinearConstraint()
                 for var in nbs_vars:
                     constraint.set_coefficient(var, 1)
-                constraint.set_coefficient(center_var, 5)
                 constraint.set_relation(pylp.Relation.LessEqual)
-                constraint.set_value(8)
+                constraint.set_value(3)
                 constraints.add(constraint)
 
                 constraint = pylp.LinearConstraint()
@@ -72,16 +71,6 @@ def reverse(target_state):
                 constraint.set_value(0)
                 constraints.add(constraint)
             
-                """
-                constraint = pylp.LinearConstraint()
-                for var in nbs_vars:
-                    constraint.set_coefficient(var, 1)
-                constraint.set_coefficient(center_var, 4)
-                constraint.set_coefficient(delta, -4)
-                constraint.set_relation(pylp.Relation.GreaterEqual)
-                constraint.set_value(0)
-                constraints.add(constraint)
-                """
                 constraint = pylp.LinearConstraint()
                 for var in nbs_vars:
                     constraint.set_coefficient(var, 1)
