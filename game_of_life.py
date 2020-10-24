@@ -1,6 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+def get_neighborhood(i,j, i_shape, j_shape):
+    nbs =  [(i-1, j), (i-1, j-1), (i, j-1),
+            (i+1, j-1), (i-1, j+1), (i+1, j),
+            (i+1, j+1), (i, j+1)]
+    # Wrap around
+    nbs = [(v[0]%i_shape, v[1]%j_shape) for v in nbs]
+    return nbs
+
 def step(board):
     """
     Implements one evolution step of the game of life.
@@ -13,21 +21,15 @@ def step(board):
 
     board_shape = np.shape(board)
     board_new = np.zeros(board_shape, dtype=np.bool)
+    i_shape = board_shape[0]
+    j_shape = board_shape[1]
 
     for i in range(board_shape[0] - 1):
         for j in range(board_shape[1] - 1):
             nb_cells = 0
-
-            nb_cells += board[i - 1][j - 1] #top left
-            nb_cells += board[i - 1][j]  #top center
-            nb_cells += board[i - 1][j + 1] #top right
-
-            nb_cells += board[i][j - 1] #middle left
-            nb_cells += board[i][j + 1] #middle right
-
-            nb_cells += board[i + 1][j - 1] #bottom left
-            nb_cells += board[i + 1][j] #bottom center
-            nb_cells += board[i + 1][j + 1] #bottom right
+            nbs = get_neighborhood(i,j, i_shape, j_shape)
+            for nb in nbs:
+                nb_cells += board[nb[0], nb[1]]
 
             if nb_cells == 2: # Dead cells stay dead, live cells survive
                 board_new[i,j] = board[i,j]
